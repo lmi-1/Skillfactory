@@ -47,6 +47,25 @@ def win_position(f,user):
             return True
     return False
 
+def start(field):
+    count=0
+    while True:
+        show_field(field)
+        if count%2==0:
+            user='x'
+        else:
+            user='0'
+        if count<9:
+            x, y = user_input(field,user)
+            field[x][y] = user
+        elif count==9:
+            print('Ничья')
+            break
+        if win_position(field,user):
+            print(f"Выиграл {user}")
+            break
+        count+=1
+
 # field = [['-']*3 for _ in range(3)]
 # greet()
 # show_field(field)
