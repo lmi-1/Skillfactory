@@ -8,67 +8,72 @@ def greet():
     print(" x - номер строки  ")
     print(" y - номер столбца ")
 
-def show_field(f):
-    num ='  0 1 2'
-    print(num)
-    for row,i in zip(f,num.split()):
-        print(f"{i} {' '.join(str(j) for j in row)}")
+def show_field():
+    print('  0 1 2')
+    for i in range(len(field)):
+        print(str(i) + ' ' + ' '.join(field[i]))
 
-def user_input(f,user):
+
+def user_input():
     while True:
-        place=input(f"Ходит {user}. Введите координаты: ").split()
-        if len(place)!=2:
-            print('Введите две координаты')
+        cords = input("         Ваш ход: ").split()
+        if len(cords) != 2:
+            print(" Введите 2 координаты! ")
             continue
-        if not(place[0].isdigit() and place[1].isdigit()):
-            print('Введите числа')
+        x, y = cords
+        if not (x.isdigit()) or not (y.isdigit()):
+            print(" Введите числа! ")
             continue
-        x, y = map(int, place)
-        if not(x>=0 and x<3 and y>=0 and y<3):
-            print('Вышли из диапазона')
+        x, y = int(x), int(y)
+        if 0 > x or x > 2 or 0 > y or y > 2:
+            print(" Координаты вне диапазона! ")
             continue
-        if f[x][y]!='-':
-            print('Клетка занята')
+        if field[x][y] != "-":
+            print(" Клетка занята! ")
             continue
-        break
-    return x,y
+        return x, y
 
-def win_position(f,user):
-    f_list=[]
-    print(f)
-    for l in f:
-        f_list+=l
-    print(f_list)
-    positions=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-    indices = set([i for i, x in enumerate(f_list) if x == user])
 
-    for p in positions:
-        if len(indices.intersection(set(p)))==3:
+def win_position():
+    win_cord = (((0, 0), (0, 1), (0, 2)), ((1, 0), (1, 1), (1, 2)), ((2, 0), (2, 1), (2, 2)),
+                ((0, 2), (1, 1), (2, 0)), ((0, 0), (1, 1), (2, 2)), ((0, 0), (1, 0), (2, 0)),
+                ((0, 1), (1, 1), (2, 1)), ((0, 2), (1, 2), (2, 2)))
+    for cord in win_cord:
+        symbols = []
+        for c in cord:
+            symbols.append(field[c[0]][c[1]])
+        if symbols == ["X", "X", "X"]:
+            print("Выиграл X!")
+            return True
+        if symbols == ["0", "0", "0"]:
+            print("Выиграл 0!")
             return True
     return False
 
-def start(field):
-    count=0
+
+def start():
+    count = 0
     while True:
-        show_field(field)
-        if count%2==0:
-            user='x'
+        count += 1
+        show_field()
+        if count % 2 == 1:
+            print(" Ходит крестик!")
         else:
-            user='0'
-        if count<9:
-            x, y = user_input(field,user)
-            field[x][y] = user
-        elif count==9:
-            print('Ничья')
+            print(" Ходит нолик!")
+
+        x, y = user_input()
+
+        if count % 2 == 1:
+            field[x][y] = "X"
+        else:
+            field[x][y] = "0"
+        if win_position():
             break
-        if win_position(field,user):
-            print(f"Выиграл {user}")
+        if count == 9:
+            print(" Ничья!")
             break
-        count+=1
-
-# field = [['-']*3 for _ in range(3)]
-# greet()
-# show_field(field)
-# user_input(field,'x')
 
 
+greet()
+field = [['-'] * 3 for _ in range(3)]
+start()
