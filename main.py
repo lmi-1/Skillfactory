@@ -16,7 +16,7 @@ def show_field(f):
 
 def user_input(f,user):
     while True:
-        place=input(f"Ходит {user} .Введите координаты: ").split()
+        place=input(f"Ходит {user}. Введите координаты: ").split()
         if len(place)!=2:
             print('Введите две координаты')
             continue
