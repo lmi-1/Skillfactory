@@ -33,6 +33,19 @@ def user_input(f,user):
         break
     return x,y
 
+def win_position(f,user):
+    f_list=[]
+    print(f)
+    for l in f:
+        f_list+=l
+    print(f_list)
+    positions=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    indices = set([i for i, x in enumerate(f_list) if x == user])
+
+    for p in positions:
+        if len(indices.intersection(set(p)))==3:
+            return True
+    return False
 
 # field = [['-']*3 for _ in range(3)]
 # greet()
